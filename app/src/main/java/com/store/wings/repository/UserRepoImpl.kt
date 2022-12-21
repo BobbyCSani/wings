@@ -16,24 +16,28 @@ import javax.inject.Inject
 class UserRepoImpl @Inject constructor(private val database: DatabaseReference): UserRepository{
 
     override suspend fun login(username: String, password: String): Flow<String?> =
-        callbackFlow<String?> {
-            database.child("users")
-                .orderByChild("username")
-                .equalTo(username)
-                .get()
-                .addOnSuccessListener { snapshot ->
+        callbackFlow {
+            val listener = object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
                         val userSnapshot = snapshot.child(snapshot.children.first().key ?: "")
                         if (userSnapshot.child("password").value == password) {
                             trySend(username)
-                        }
-                    }
-                }
-                .addOnFailureListener {
-                    trySend(null)
+                        } else trySend(null)
+                    } else trySend(null)
                 }
 
-            awaitClose {}
+                override fun onCancelled(error: DatabaseError) {}
+
+            }
+            database.child("users")
+                .orderByChild("username")
+                .equalTo(username)
+                .addValueEventListener(listener)
+
+            awaitClose {
+                database.removeEventListener(listener)
+            }
         }.flowOn(Dispatchers.IO)
 
     override suspend fun register(username: String, password: String): Flow<String?> =

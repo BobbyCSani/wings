@@ -41,9 +41,8 @@ class LoginActivity : AppCompatActivity() {
         viewModel.authLiveData.observe(this){ username ->
             if (username != null){
                 saveUsername(username)
-                startActivity(Intent(this, ListProductActivity::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_NO_HISTORY
-                })
+                startActivity(Intent(this, ListProductActivity::class.java))
+                finishAfterTransition()
             } else Toast.makeText(this@LoginActivity, "sorry, wrong username or password", Toast.LENGTH_LONG).show()
         }
     }
