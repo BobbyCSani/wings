@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "182385343035",
+    "firebase_url": "https://wings-84931-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "wings-84931",
+    "storage_bucket": "wings-84931.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:182385343035:android:14422304a1390c94f1ba1e",
+        "android_client_info": {
+          "package_name": "com.store.wings"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "182385343035-rtl5s2u9282uo4dabd189pc54m4m1oql.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.store.wings",
+            "certificate_hash": "4c1e78496d3210a7ea73c62d46f412f57995c9aa"
+          }
+        },
+        {
+          "client_id": "182385343035-i4hu8pv1h2pafob71rtf7qmftadp77b1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDI6Uf2U5jhU2_VoGin345jBaA7NwiqfAs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "182385343035-i4hu8pv1h2pafob71rtf7qmftadp77b1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

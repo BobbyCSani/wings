@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Wings</string>
+    <string name="register">Register</string>
+    <string name="password">password</string>
+    <string name="username">username</string>
+    <string name="login">Login</string>
+    <string name="buy">buy</string>
+    <string name="checkout">checkout</string>
+    <string name="confirm">Confirm</string>
+    <string name="subtotal">Subtotal: %1s</string>
+    <string name="totalPrice">Total Price: %1s</string>
+    <string name="dimension">Dimension</string>
+    <string name="price_unit">Price Unit</string>
+</resources>
