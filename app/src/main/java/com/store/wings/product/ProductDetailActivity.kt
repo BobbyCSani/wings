@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.store.wings.model.ProductModel
@@ -12,7 +13,11 @@ import com.store.wings.databinding.ActivityProductDetailBinding
 import com.store.wings.discountPrice
 import com.store.wings.parcelable
 import com.store.wings.priceFormat
+import com.store.wings.transaction.ListTransactionActivity
+import com.store.wings.username
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProductDetailActivity: AppCompatActivity() {
 
     companion object{
@@ -24,6 +29,7 @@ class ProductDetailActivity: AppCompatActivity() {
         }
     }
 
+    private val viewModel by viewModels<ProductViewModel>()
     private lateinit var binding: ActivityProductDetailBinding
     private val product by lazy { intent?.parcelable<ProductModel>(PRODUCT_KEY) }
 
@@ -32,6 +38,17 @@ class ProductDetailActivity: AppCompatActivity() {
         binding = ActivityProductDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupView()
+        setupObserver()
+    }
+
+    private fun setupObserver(){
+        viewModel.transactionLiveData.observe(this){ isSuccess ->
+            if (isSuccess) startActivity(
+                Intent(
+                    this, ListTransactionActivity::class.java
+                )
+            )
+        }
     }
 
     private fun setupView() = with(binding){
@@ -47,6 +64,17 @@ class ProductDetailActivity: AppCompatActivity() {
             else strikePrice.visibility = View.GONE
             dimension.text = data.dimension
             unit.text = data.unit
+        }
+        binding.toolbar.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
+        binding.buy.setOnClickListener {
+            username?.let{ name ->
+                product?.let { data ->
+                    viewModel.buyProduct(name, data)
+                }
+            }
         }
     }
 }

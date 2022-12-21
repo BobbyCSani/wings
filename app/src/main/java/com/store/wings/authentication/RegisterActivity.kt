@@ -40,7 +40,9 @@ class RegisterActivity : AppCompatActivity() {
         viewModel.authLiveData.observe(this){ username ->
             if (username != null){
                 saveUsername(username)
-                startActivity(Intent(this, ListProductActivity::class.java))
+                startActivity(Intent(this, ListProductActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+                })
                 Toast.makeText(this, "congratulation, you are now registered", Toast.LENGTH_LONG)
                     .show()
             } else Toast.makeText(this@RegisterActivity, "sorry, please use different username", Toast.LENGTH_LONG).show()

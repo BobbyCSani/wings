@@ -7,9 +7,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.*
+import com.store.wings.authentication.LoginActivity
 import com.store.wings.model.ProductModel
 import com.store.wings.model.TransactionModel
 import com.store.wings.databinding.ActivityProductListBinding
+import com.store.wings.deleteUsername
 import com.store.wings.discountPrice
 import com.store.wings.transaction.ListTransactionActivity
 import com.store.wings.username
@@ -54,6 +56,11 @@ class ListProductActivity: AppCompatActivity() {
 
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
+        }
+
+        binding.logout.setOnClickListener {
+            deleteUsername()
+            startActivity(Intent(this, LoginActivity::class.java))
         }
     }
 

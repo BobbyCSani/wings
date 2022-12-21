@@ -49,6 +49,10 @@ class ListTransactionActivity: AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@ListTransactionActivity)
             adapter = transactionAdapter
         }
+
+        binding.toolbar.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     private fun setupObserver() = with(viewModel){
