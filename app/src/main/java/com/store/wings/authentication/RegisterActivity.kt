@@ -10,8 +10,10 @@ import com.store.wings.product.ListProductActivity
 import com.store.wings.model.User
 import com.store.wings.databinding.ActivityMainBinding
 import com.store.wings.saveUsername
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Date
 
+@AndroidEntryPoint
 class RegisterActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<AuthenticationViewModel>()

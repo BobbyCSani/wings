@@ -17,8 +17,11 @@ class UserRepoImpl @Inject constructor(private val database: DatabaseReference):
 
     override suspend fun login(username: String, password: String): Flow<String?> =
         callbackFlow<String?> {
-            val listener = object : ValueEventListener{
-                override fun onDataChange(snapshot: DataSnapshot) {
+            database.child("users")
+                .orderByChild("username")
+                .equalTo(username)
+                .get()
+                .addOnSuccessListener { snapshot ->
                     if (snapshot.exists()) {
                         val userSnapshot = snapshot.child(snapshot.children.first().key ?: "")
                         if (userSnapshot.child("password").value == password) {
@@ -26,22 +29,15 @@ class UserRepoImpl @Inject constructor(private val database: DatabaseReference):
                         }
                     }
                 }
+                .addOnFailureListener {
+                    trySend(null)
+                }
 
-                override fun onCancelled(error: DatabaseError) {}
-
-            }
-            database.child("users")
-                .orderByChild("username")
-                .equalTo(username)
-                .addValueEventListener(listener)
-
-            awaitClose {
-                database.removeEventListener(listener)
-            }
+            awaitClose {}
         }.flowOn(Dispatchers.IO)
 
     override suspend fun register(username: String, password: String): Flow<String?> =
-        callbackFlow<String?> {
+        callbackFlow {
             val listener = object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists().not()){
@@ -49,7 +45,7 @@ class UserRepoImpl @Inject constructor(private val database: DatabaseReference):
                             .addOnSuccessListener {
                                 trySend(username)
                             }
-                    }
+                    } else trySend(null)
                 }
 
                 override fun onCancelled(error: DatabaseError) {}
